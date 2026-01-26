@@ -11,8 +11,8 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 
 -- Criar a janela principal
 local Window = Fluent:CreateWindow({
-    Title = "River",
-    SubTitle = "by JV",
+    Title = "CruzHUB",
+    SubTitle = "by leite",
     TabWidth = 160,
     Size = UDim2.fromOffset(480, 380),
     Acrylic = true,
