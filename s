@@ -3171,11 +3171,11 @@ SaveManager:LoadAutoloadConfig()
 
 -- Notificação inicial
 Fluent:Notify({
-    Title = "River",
+    Title = "CruzHUB",
     Content = "Loaded successfully! (Dual Bypass System - Virtual Input First Parry)",
     Duration = 5
 })
 
-print("River loaded with Fluent UI and Dual Bypass System!")
+print("CruzHUB loaded with Fluent UI and Dual Bypass System!")
 
 end) -- Fim do task.spawn para carregamento assíncrono da UI
