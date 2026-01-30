@@ -3179,3 +3179,29 @@ Fluent:Notify({
 print("CruzHUB loaded with Fluent UI and Dual Bypass System!")
 
 end) -- Fim do task.spawn para carregamento assíncrono da UI
+
+-- KANKA BU KISMI SCRIPT'IN EN ALTINA YAPIŞTIR --
+local UIS = game:GetService("UserInputService")
+local RS = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+
+-- Ayarlar
+local holdKey = Enum.KeyCode.V
+local manualSpamEnabled = true -- Menüden bağımsız direkt çalışması için true yaptım
+
+-- Spam Fonksiyonu (Senin scriptteki ana uzak tetikleyici)
+local function doSpam()
+    local remote = RS:FindFirstChild("ParryRemote") or RS:FindFirstChild("RPC") -- Scriptteki olası remote isimleri
+    if remote then
+        remote:FireServer()
+    end
+end
+
+-- V Tuşu Kontrolü
+RunService.RenderStepped:Connect(function()
+    -- Eğer V tuşuna basılıyorsa VE yazı yazmıyorsan (Chat açık değilse)
+    if UIS:IsKeyDown(holdKey) and not UIS:GetFocusedTextBox() then
+        doSpam()
+    end
+end)
+-- KOD BURADA BİTİYOR --
