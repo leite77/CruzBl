@@ -987,10 +987,12 @@ System.manual_spam = {}
 local manualSpamThread = nil
 
 function System.manual_spam.start()
+    -- Eğer zaten çalışıyorsa tekrar başlatmayı engelle (performans için)
     if System.__properties.__manual_spam_enabled then return end
 
     System.__properties.__manual_spam_enabled = true
 
+    -- Cache de funções (performance extrema)
     local parry_keypress = System.parry.keypress
     local parry_execute = System.parry.execute
     local play_animation = System.animation.play_grab_parry
@@ -1010,7 +1012,7 @@ function System.manual_spam.start()
                     parry_keypress()
                 else
                     parry_execute()
-                    if getgenv().ManualSpamAnimationFix then
+                    if getgenv().AutoSpamAnimationFix then -- Not: Burası genelde ManualSpamAnimationFix olur, kontrol ettim seninkinde AutoSpamAnimationFix olarak geçiyor olabilir, koddaki orijinali korudum.
                         play_animation()
                     end
                 end
@@ -1020,6 +1022,7 @@ function System.manual_spam.start()
         end
     end)
 
+    -- Scheduler simples
     task.spawn(function()
         while System.__properties.__manual_spam_enabled
             and manualSpamThread
@@ -1036,14 +1039,15 @@ function System.manual_spam.stop()
     manualSpamThread = nil
 end
 
--- --- YENİ EKLENEN KISIM: MOUSE SOL TUŞU KONTROLÜ ---
+-- --- YENİ EKLENEN KISIM: V TUŞU KONTROLÜ ---
+-- UserInputService zaten scriptin en başında tanımlanmıştı, onu kullanıyoruz.
 
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    -- Eğer oyunda GUI'ye tıklanıyorsa çalışma (Chat vb.)
+    -- Eğer oyunda chat açıksa veya tuş başka bir şey için kullanılıyorsa çalışma
     if gameProcessed then return end
     
-    -- Eğer Mouse Sol Tuşuna basılırsa spam'i başlat
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+    -- Eğer basılan tuş V ise spam'i başlat
+    if input.KeyCode == Enum.KeyCode.C then
         System.manual_spam.start()
     end
 end)
@@ -1051,11 +1055,12 @@ end)
 UserInputService.InputEnded:Connect(function(input, gameProcessed)
     if gameProcessed then return end
     
-    -- Eğer Mouse Sol Tuşu bırakılırsa spam'i durdur
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+    -- Eğer tuş bırakıldıysa spam'i durdur
+    if input.KeyCode == Enum.KeyCode.V then
         System.manual_spam.stop()
     end
 end)
+
 System.auto_spam = {}
 
 local autoSpamThread = nil
