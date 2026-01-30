@@ -982,28 +982,15 @@ function System.triggerbot.enable(enabled)
     end
 end
 
-System.auto_spam = {}
-
-local autoSpamThread = nil
-
-function System.auto_spam.start()
-    System.auto_spam.stop()
-
-    System.__properties.__auto_spam_enabled = true
-
-    autoSpamThread = coroutine.create(function()
-        while System.__properties.__auto_spam_enabled do
-            if System.__properties.__spamSystem.manual_spam = {}
+System.manual_spam = {}
 
 local manualSpamThread = nil
 
 function System.manual_spam.start()
-    -- Eğer zaten çalışıyorsa tekrar başlatma (hata önleyici)
     if System.__properties.__manual_spam_enabled then return end
 
     System.__properties.__manual_spam_enabled = true
 
-    -- Gerekli fonksiyonları hafızaya al (daha hızlı çalışır)
     local parry_keypress = System.parry.keypress
     local parry_execute = System.parry.execute
     local play_animation = System.animation.play_grab_parry
@@ -1023,7 +1010,7 @@ function System.manual_spam.start()
                     parry_keypress()
                 else
                     parry_execute()
-                    if getgenv().AutoSpamAnimationFix then
+                    if getgenv().ManualSpamAnimationFix then
                         play_animation()
                     end
                 end
@@ -1033,7 +1020,6 @@ function System.manual_spam.start()
         end
     end)
 
-    -- Arka planda çalıştırmayı sağlayan kısım
     task.spawn(function()
         while System.__properties.__manual_spam_enabled
             and manualSpamThread
@@ -1050,11 +1036,8 @@ function System.manual_spam.stop()
     manualSpamThread = nil
 end
 
--- --- V TUŞU KONTROL BÖLÜMÜ ---
--- Burası V tuşuna basınca çalışır, çekince durur.
-
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end -- Chat açıksa çalışma
+    if gameProcessed then return end
     if input.KeyCode == Enum.KeyCode.V then
         System.manual_spam.start()
     end
@@ -1065,7 +1048,20 @@ UserInputService.InputEnded:Connect(function(input, gameProcessed)
     if input.KeyCode == Enum.KeyCode.V then
         System.manual_spam.stop()
     end
-end)_target then
+end)
+
+System.auto_spam = {}
+
+local autoSpamThread = nil
+
+function System.auto_spam.start()
+    System.auto_spam.stop()
+
+    System.__properties.__auto_spam_enabled = true
+
+    autoSpamThread = coroutine.create(function()
+        while System.__properties.__auto_spam_enabled do
+            if System.__properties.__spam_target then
                 System.parry.execute()
             end
 
