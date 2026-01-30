@@ -1047,7 +1047,7 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end
     
     -- Eğer basılan tuş V ise spam'i başlat
-    if input.KeyCode == Enum.KeyCode.C then
+    if input.KeyCode == Enum.KeyCode.V then
         System.manual_spam.start()
     end
 end)
