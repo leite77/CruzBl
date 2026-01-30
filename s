@@ -987,11 +987,10 @@ System.manual_spam = {}
 local manualSpamThread = nil
 
 function System.manual_spam.start()
-    System.manual_spam.stop()
+    if System.__properties.__manual_spam_enabled then return end
 
     System.__properties.__manual_spam_enabled = true
 
-    -- Cache de funções (performance extrema)
     local parry_keypress = System.parry.keypress
     local parry_execute = System.parry.execute
     local play_animation = System.animation.play_grab_parry
@@ -1021,7 +1020,6 @@ function System.manual_spam.start()
         end
     end)
 
-    -- Scheduler simples
     task.spawn(function()
         while System.__properties.__manual_spam_enabled
             and manualSpamThread
@@ -1037,6 +1035,20 @@ function System.manual_spam.stop()
     System.__properties.__manual_spam_enabled = false
     manualSpamThread = nil
 end
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    if input.KeyCode == Enum.KeyCode.V then
+        System.manual_spam.start()
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    if input.KeyCode == Enum.KeyCode.V then
+        System.manual_spam.stop()
+    end
+end)
 
 System.auto_spam = {}
 
