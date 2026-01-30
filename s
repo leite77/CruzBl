@@ -3179,23 +3179,3 @@ Fluent:Notify({
 print("CruzHUB loaded with Fluent UI and Dual Bypass System!")
 
 end) -- Fim do task.spawn para carregamento assíncrono da UI
-
--- // Manuel Spam Hold (Basılı Tutma) Sistemi // --
-local UserInputService = game:GetService("UserInputService")
-
--- V tuşuna basıldığında
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    -- Chat veya başka bir menü açıkken çalışmaması için gameProcessed kontrolü
-    if not gameProcessed and input.KeyCode == Enum.KeyCode.V then
-        _G.ManualSpam = true
-        warn("Manual Spam: AKTİF (V Tuşu)")
-    end
-end)
-
--- V tuşu bırakıldığında
-UserInputService.InputEnded:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.V then
-        _G.ManualSpam = false
-        warn("Manual Spam: DEAKTİF (V Bırakıldı)")
-    end
-end)
