@@ -1036,20 +1036,26 @@ function System.manual_spam.stop()
     manualSpamThread = nil
 end
 
+-- --- YENİ EKLENEN KISIM: MOUSE SOL TUŞU KONTROLÜ ---
+
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    -- Eğer oyunda GUI'ye tıklanıyorsa çalışma (Chat vb.)
     if gameProcessed then return end
-    if input.KeyCode == Enum.KeyCode.V then
+    
+    -- Eğer Mouse Sol Tuşuna basılırsa spam'i başlat
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
         System.manual_spam.start()
     end
 end)
 
 UserInputService.InputEnded:Connect(function(input, gameProcessed)
     if gameProcessed then return end
-    if input.KeyCode == Enum.KeyCode.V then
+    
+    -- Eğer Mouse Sol Tuşu bırakılırsa spam'i durdur
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
         System.manual_spam.stop()
     end
 end)
-
 System.auto_spam = {}
 
 local autoSpamThread = nil
